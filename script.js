@@ -8,8 +8,8 @@
 // Game values
 let min = 1,
   max = 10,
-  winningNum = 6,
-  guessesLeft = 3;
+  winningNum = getRandomNum(min, max);
+guessesLeft = 3;
 
 // UL Elements
 const game = document.querySelector('#game'),
@@ -24,6 +24,13 @@ minNum.textContent = min;
 maxNum.textContent = max;
 
 
+// Play Again Event Listener
+game.addEventListener('mousedown', function (e) {
+  if (e.target.className === 'play-again') {
+    window.location.reload();
+  }
+})
+
 // Listen for guess
 guessBtn.addEventListener('click', function () {
   // ParseInt turns string to integer
@@ -36,15 +43,9 @@ guessBtn.addEventListener('click', function () {
   // Check if won
   if (guess === winningNum) {
 
-
     // Game over - Won  
     gameOver(true, `${winningNum} is the correct number! You Win`, 'green');
-
-
-
   } else {
-
-
 
     // Wrong Number
     guessesLeft -= 1;
@@ -68,7 +69,6 @@ guessBtn.addEventListener('click', function () {
 });
 
 // Game Over Function
-
 function gameOver(won, msg) {
 
   let color;
@@ -79,10 +79,25 @@ function gameOver(won, msg) {
   // Disable Input
   guessInput.disabled = true;
   setMessage(msg, color);
+
+  // Play Again
+  guessBtn.value = "Play Again?";
+  guessBtn.className += 'play-again';
 }
+
+// Get Random Number Function
+function getRandomNum(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+
+}
+
+
+
 
 // Set Message Function
 function setMessage(msg, color) {
   message.textContent = msg;
   message.style.color = color;
 }
+
+
